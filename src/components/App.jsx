@@ -27,14 +27,20 @@ export function App() {
 
   const formSubmitHandler = data => {
     const { name } = data;
-
-    let nameLIst = contacts.map(contact => contact.name);
-
-    if (nameLIst.includes(name.toLowerCase())) {
-      return alert(`${name} is already in your contacts.`);
-    } else {
+    if (contacts.length>0){
+      let nameLIst = contacts.map(contact => contact.name);
+      if (nameLIst.includes(name.toLowerCase())) {
+        return alert(`${name} is already in your contacts.`);
+      } else {
+        setContacts([data, ...contacts]);
+      }
+    }else {
       setContacts([data, ...contacts]);
     }
+
+   
+
+  
   };
   const handleContactRemove = event => {
     const contactToRemove = event.currentTarget.id;
