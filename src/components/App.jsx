@@ -10,16 +10,16 @@ import { Phonebook } from '../components/ContactList/ContactList.styled';
 
 const useLocalStorage = (key, defaultValue) => {
   const [state, setState]= useState(()=>{
-    console.log(localStorage.getItem(key))
-    return JSON.parse(window.localStorage.getItem(key)) || defaultValue
+    return JSON.parse(window.localStorage.getItem(key)) ?? defaultValue
   })
   useEffect(()=>{
     window.localStorage.setItem(key, JSON.stringify(state))
   }, [key, state])
   return [state, setState]
 }
+
 export function App() {
-  const [contacts, setContacts] = useLocalStorage('contacts', '') ;
+  const [contacts, setContacts] = useLocalStorage('contacts', []) ;
   const [filter, setFilter] = useState('');
 
   const changeFilter = event => {
