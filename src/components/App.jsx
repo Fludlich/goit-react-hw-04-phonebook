@@ -10,7 +10,8 @@ import { Phonebook } from '../components/ContactList/ContactList.styled';
 
 const useLocalStorage = (key, defaultValue) => {
   const [state, setState]= useState(()=>{
-    return JSON.parse(window.localStorage.getItem(key)) ?? defaultValue
+    console.log(localStorage.getItem(key))
+    return JSON.parse(window.localStorage.getItem(key)) || defaultValue
   })
   useEffect(()=>{
     window.localStorage.setItem(key, JSON.stringify(state))
@@ -50,15 +51,16 @@ export function App() {
   const getVisibleContacts = () => {
     const normalizedFilter = filter.toLowerCase();
 
-   if(contacts.length>0){
+   if(contacts){
 
     return contacts.filter(contact =>
       contact.name.toLowerCase().includes(normalizedFilter)
-    );
-  
+    )
+  }else{
+    return contacts
   }
 
-   return contacts
+
   };
   const vizibleContacts = getVisibleContacts();
 
