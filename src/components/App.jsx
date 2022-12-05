@@ -36,7 +36,7 @@ export function App() {
         setContacts([data, ...contacts]);
       }
     }else {
-      setContacts([data, ...contacts]);
+      setContacts([data]);
     }
 
    
