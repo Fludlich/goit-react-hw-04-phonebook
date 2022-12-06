@@ -1,25 +1,12 @@
-
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { ContactList } from './ContactList/ContactList';
 import ContactForm from './Form/Form';
 import { Filter } from './Filter/Filter';
 import { Phonebook } from '../components/ContactList/ContactList.styled';
-
-
-
-
-const useLocalStorage = (key, defaultValue) => {
-  const [state, setState]= useState(()=>{
-    return JSON.parse(window.localStorage.getItem(key)) ?? defaultValue
-  })
-  useEffect(()=>{
-    window.localStorage.setItem(key, JSON.stringify(state))
-  }, [key, state])
-  return [state, setState]
-}
+import { useLocalStorage } from './Hooks/LocalStorage';
 
 export function App() {
-  const [contacts, setContacts] = useLocalStorage('contacts', []) ;
+  const [contacts, setContacts] = useLocalStorage('contacts', []);
   const [filter, setFilter] = useState('');
 
   const changeFilter = event => {
@@ -28,20 +15,16 @@ export function App() {
 
   const formSubmitHandler = data => {
     const { name } = data;
-    if (contacts.length>0){
+    if (contacts.length > 0) {
       let nameLIst = contacts.map(contact => contact.name);
       if (nameLIst.includes(name.toLowerCase())) {
         return alert(`${name} is already in your contacts.`);
       } else {
         setContacts([data, ...contacts]);
       }
-    }else {
+    } else {
       setContacts([data]);
     }
-
-   
-
-  
   };
   const handleContactRemove = event => {
     const contactToRemove = event.currentTarget.id;
@@ -51,16 +34,13 @@ export function App() {
   const getVisibleContacts = () => {
     const normalizedFilter = filter.toLowerCase();
 
-   if(contacts){
-
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(normalizedFilter)
-    )
-  }else{
-    return contacts
-  }
-
-
+    if (contacts) {
+      return contacts.filter(contact =>
+        contact.name.toLowerCase().includes(normalizedFilter)
+      );
+    } else {
+      return contacts;
+    }
   };
   const vizibleContacts = getVisibleContacts();
 
